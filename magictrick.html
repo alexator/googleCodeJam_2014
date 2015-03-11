@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jam 2014</title>
+</head>
+<body>
+<label>Input file</label>
+<input type="file" name="file" id="file">
+<script type="text/javascript">
+	
+	Array.matrix = function (numrows, numcols, initial) {
+		
+		var arr = [];
+		
+		for (var i = 0; i < numrows; ++i){
+		
+			var columns = [];
+		
+			for (var j = 0; j < numcols; ++j){
+				columns[j] = initial;
+			}
+			
+			arr[i] = columns;
+		}
+		
+		return arr;
+	}
+	
+	document.getElementById('file').onchange = function () {
+
+		var file = this.files[0];
+
+		var reader = new FileReader();
+		
+		reader.onload = function (progressEvent) {
+		
+			var lines = this.result.split('\n');
+			var numTest = lines[0];
+			var numLine = 1;
+			var firstCh = 0;
+			var secondCh = 0;
+			var firstTable = Array.matrix(4,4,0);
+			var secondTable = Array.matrix(4,4,0);
+			var result = [];
+
+			while (numLine < numTest * 10) {
+				getFirstCh();
+				getFirstTable();
+				getSecondCh();
+				getSecondTable();
+				magic();
+			}
+
+			function getFirstCh () {
+				firstCh = lines[numLine];
+				numLine++;
+			};
+
+			function getFirstTable () {
+			
+				var row;
+
+				for (var i = numLine; i < numLine + 4; i++) {
+					
+					row = lines[i].split(' ');
+
+					for (var j = 0; j < row.length; j++) {
+						firstTable[i - numLine][j] = row[j];
+					}
+				}
+				numLine += 4;
+			};
+			
+			function getSecondTable () {
+			
+				var row;
+			
+				for (var i = numLine; i < numLine + 4; i++) {
+				
+					row = lines[i].split(' ');
+				
+					for (var j = 0; j < row.length; j++) {
+						secondTable[(i - numLine)][j] = row[j];
+					}
+				}
+				numLine += 4;
+			};
+			
+			function getSecondCh () {
+				secondCh = lines[numLine];
+				numLine++;
+			};
+
+			function magic () {
+			
+				var caseN = Math.floor(numLine / 10);
+				result = [];
+				
+				for (var j = 0; j < firstTable.length; j++) {
+					for (var k = 0; k < secondTable.length; k++) {
+						if (firstTable[firstCh-1][j] === secondTable[secondCh-1][k]) {
+							result.push(firstTable[firstCh-1][j]);
+						}
+					}
+				}
+
+				if (result.length === 1) {
+					console.log("Case #" + caseN + ": " + result[0]);
+				} else if (result.length  > 1) {
+					console.log("Case #" + caseN + ": Bad magician!");
+				} else if (result.length  < 1) {
+					console.log("Case #" + caseN + ": Volunteer cheated!");
+				}
+			};
+		};
+		
+		reader.readAsText(file);
+	};
+</script>
+</body>
+</html>
