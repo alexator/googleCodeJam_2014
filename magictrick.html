@@ -7,7 +7,7 @@
 <label>Input file</label>
 <input type="file" name="file" id="file">
 <script type="text/javascript">
-	
+
 	Array.matrix = function (numrows, numcols, initial) {
 		
 		var arr = [];
@@ -25,6 +25,15 @@
 		
 		return arr;
 	}
+
+	var lines;
+	var numTest;
+	var numLine = 1;
+	var firstCh = 0;
+	var secondCh = 0;
+	var firstTable = Array.matrix(4,4,0);
+	var secondTable = Array.matrix(4,4,0);
+	var result = [];
 	
 	document.getElementById('file').onchange = function () {
 
@@ -33,16 +42,10 @@
 		var reader = new FileReader();
 		
 		reader.onload = function (progressEvent) {
-		
-			var lines = this.result.split('\n');
-			var numTest = lines[0];
-			var numLine = 1;
-			var firstCh = 0;
-			var secondCh = 0;
-			var firstTable = Array.matrix(4,4,0);
-			var secondTable = Array.matrix(4,4,0);
-			var result = [];
 
+			lines = this.result.split('\n');
+			numTest = lines[0];
+			
 			while (numLine < numTest * 10) {
 				getFirstCh();
 				getFirstTable();
@@ -50,8 +53,11 @@
 				getSecondTable();
 				magic();
 			}
+		};
+		
+		reader.readAsText(file);
 
-			function getFirstCh () {
+		function getFirstCh () {
 				firstCh = lines[numLine];
 				numLine++;
 			};
@@ -112,9 +118,6 @@
 					console.log("Case #" + caseN + ": Volunteer cheated!");
 				}
 			};
-		};
-		
-		reader.readAsText(file);
 	};
 </script>
 </body>
