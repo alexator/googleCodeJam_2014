@@ -62,62 +62,62 @@
 				numLine++;
 			};
 
-			function getFirstTable () {
+		function getFirstTable () {
+		
+			var row;
+
+			for (var i = numLine; i < numLine + 4; i++) {
+				
+				row = lines[i].split(' ');
+
+				for (var j = 0; j < row.length; j++) {
+					firstTable[i - numLine][j] = row[j];
+				}
+			}
+			numLine += 4;
+		};
+		
+		function getSecondTable () {
+		
+			var row;
+		
+			for (var i = numLine; i < numLine + 4; i++) {
 			
-				var row;
+				row = lines[i].split(' ');
+			
+				for (var j = 0; j < row.length; j++) {
+					secondTable[(i - numLine)][j] = row[j];
+				}
+			}
+			numLine += 4;
+		};
+		
+		function getSecondCh () {
+			secondCh = lines[numLine];
+			numLine++;
+		};
 
-				for (var i = numLine; i < numLine + 4; i++) {
-					
-					row = lines[i].split(' ');
-
-					for (var j = 0; j < row.length; j++) {
-						firstTable[i - numLine][j] = row[j];
+		function magic () {
+		
+			var caseN = Math.floor(numLine / 10);
+			result = [];
+			
+			for (var j = 0; j < firstTable.length; j++) {
+				for (var k = 0; k < secondTable.length; k++) {
+					if (firstTable[firstCh-1][j] === secondTable[secondCh-1][k]) {
+						result.push(firstTable[firstCh-1][j]);
 					}
 				}
-				numLine += 4;
-			};
-			
-			function getSecondTable () {
-			
-				var row;
-			
-				for (var i = numLine; i < numLine + 4; i++) {
-				
-					row = lines[i].split(' ');
-				
-					for (var j = 0; j < row.length; j++) {
-						secondTable[(i - numLine)][j] = row[j];
-					}
-				}
-				numLine += 4;
-			};
-			
-			function getSecondCh () {
-				secondCh = lines[numLine];
-				numLine++;
-			};
+			}
 
-			function magic () {
-			
-				var caseN = Math.floor(numLine / 10);
-				result = [];
-				
-				for (var j = 0; j < firstTable.length; j++) {
-					for (var k = 0; k < secondTable.length; k++) {
-						if (firstTable[firstCh-1][j] === secondTable[secondCh-1][k]) {
-							result.push(firstTable[firstCh-1][j]);
-						}
-					}
-				}
-
-				if (result.length === 1) {
-					console.log("Case #" + caseN + ": " + result[0]);
-				} else if (result.length  > 1) {
-					console.log("Case #" + caseN + ": Bad magician!");
-				} else if (result.length  < 1) {
-					console.log("Case #" + caseN + ": Volunteer cheated!");
-				}
-			};
+			if (result.length === 1) {
+				console.log("Case #" + caseN + ": " + result[0]);
+			} else if (result.length  > 1) {
+				console.log("Case #" + caseN + ": Bad magician!");
+			} else if (result.length  < 1) {
+				console.log("Case #" + caseN + ": Volunteer cheated!");
+			}
+		};
 	};
 </script>
 </body>
