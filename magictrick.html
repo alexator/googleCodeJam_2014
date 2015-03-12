@@ -4,10 +4,13 @@
 	<title>Jam 2014</title>
 </head>
 <body>
-<label>Input file</label>
+<label>Give the input file</label>
+<br>
+<br>
 <input type="file" name="file" id="file">
 <script type="text/javascript">
-
+	
+	// Suggetion from Javascript Good Practices for handling 2D arrays
 	Array.matrix = function (numrows, numcols, initial) {
 		
 		var arr = [];
@@ -25,15 +28,17 @@
 		
 		return arr;
 	}
-
+	// END
+	
 	var lines;
 	var numTest;
+	var rowsOfTable = 4;
+	var lineOfEachTest = 10;
 	var numLine = 1;
 	var firstCh = 0;
 	var secondCh = 0;
 	var firstTable = Array.matrix(4,4,0);
 	var secondTable = Array.matrix(4,4,0);
-	var result = [];
 	
 	document.getElementById('file').onchange = function () {
 
@@ -46,7 +51,7 @@
 			lines = this.result.split('\n');
 			numTest = lines[0];
 			
-			while (numLine < numTest * 10) {
+			while (numLine < numTest * lineOfEachTest) {
 				getFirstCh();
 				getFirstTable();
 				getSecondCh();
@@ -58,64 +63,74 @@
 		reader.readAsText(file);
 
 		function getFirstCh () {
+			
+			if (lines[numLine].split(' ').length === 1) {
 				firstCh = lines[numLine];
 				numLine++;
-			};
+			}
+		};
 
 		function getFirstTable () {
 		
 			var row;
 
-			for (var i = numLine; i < numLine + 4; i++) {
+			for (var i = numLine; i < numLine + rowsOfTable; i++) {
 				
 				row = lines[i].split(' ');
-
-				for (var j = 0; j < row.length; j++) {
-					firstTable[i - numLine][j] = row[j];
+				
+				if (row.length === 4) {
+					for (var j = 0; j < row.length; j++) {
+						firstTable[i - numLine][j] = row[j];
+					}
 				}
 			}
-			numLine += 4;
+			numLine += rowsOfTable;
 		};
 		
 		function getSecondTable () {
 		
 			var row;
 		
-			for (var i = numLine; i < numLine + 4; i++) {
+			for (var i = numLine; i < numLine + rowsOfTable; i++) {
 			
 				row = lines[i].split(' ');
-			
-				for (var j = 0; j < row.length; j++) {
-					secondTable[(i - numLine)][j] = row[j];
+				
+				if (row.length === 4) {
+					for (var j = 0; j < row.length; j++) {
+						secondTable[(i - numLine)][j] = row[j];
+					}
 				}
 			}
-			numLine += 4;
+			numLine += rowsOfTable;
 		};
 		
 		function getSecondCh () {
-			secondCh = lines[numLine];
-			numLine++;
+			if (lines[numLine].split(' ').length === 1) {
+				secondCh = lines[numLine];
+				numLine++;
+			}	
 		};
 
 		function magic () {
 		
-			var caseN = Math.floor(numLine / 10);
-			result = [];
+			var numOfCase = Math.floor(numLine / lineOfEachTest);
+			
+			var result = [];
 			
 			for (var j = 0; j < firstTable.length; j++) {
 				for (var k = 0; k < secondTable.length; k++) {
-					if (firstTable[firstCh-1][j] === secondTable[secondCh-1][k]) {
-						result.push(firstTable[firstCh-1][j]);
+					if (firstTable[firstCh - 1][j] === secondTable[secondCh - 1][k]) {
+						result.push(firstTable[firstCh - 1][j]);
 					}
 				}
 			}
 
 			if (result.length === 1) {
-				console.log("Case #" + caseN + ": " + result[0]);
+				console.log("Case #" + numOfCase + ": " + result[0]);
 			} else if (result.length  > 1) {
-				console.log("Case #" + caseN + ": Bad magician!");
+				console.log("Case #" + numOfCase + ": Bad magician!");
 			} else if (result.length  < 1) {
-				console.log("Case #" + caseN + ": Volunteer cheated!");
+				console.log("Case #" + numOfCase + ": Volunteer cheated!");
 			}
 		};
 	};
